@@ -1,0 +1,40 @@
+### Java
+# Compiled class file
+*.class
+
+# Log file
+*.log
+
+# Package Files #
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+### macOS
+.DS_Store
+
+### Windows
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+### Tools
+.idea/
+*.iml
+*.imlgit
+
+### 编译后文件
+target/
+
+.mvn/
+*mvnw
+mvnw.*
+HELP.md
+
+.history
+dist
+loan-view/node_modules
+package-lock.json
+.vscode/settings.json
