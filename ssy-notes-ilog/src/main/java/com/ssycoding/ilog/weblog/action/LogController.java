@@ -1,5 +1,6 @@
 package com.ssycoding.ilog.weblog.action;
 
+import com.ssycoding.ilog.weblog.entry.WebLog;
 import com.ssycoding.ilog.weblog.pojo.Person;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,11 +22,11 @@ public class LogController {
 
 //    @WebLog(description = "测试自定义日志 - Controller")
     @RequestMapping(value = "/log")
-    public Person AnnotationTest(@Validated Person person, BindingResult bindingResult) {
+    public Person AnnotationTest(@Validated Person person) {
 
-        if (!ObjectUtils.isEmpty(bindingResult.getFieldError())) {
-            logger.error(bindingResult.getFieldError().getDefaultMessage());
-        }
+//        if (!ObjectUtils.isEmpty(bindingResult.getFieldError())) {
+//            logger.error(bindingResult.getFieldError().getDefaultMessage());
+//        }
         logger.info(person.toString());
         return person;
     }
