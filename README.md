@@ -9,6 +9,7 @@
 | [ssy-notes-ilog](https://github.com/Sean-inoubliable/SSY-Notes/tree/master/ssy-notes-ilog) | SpringBoot 自定义日志，切面实现 |
 | [ssy-notes-iutils](https://github.com/Sean-inoubliable/SSY-Notes/tree/master/ssy-notes-iutils) | 工具类，开箱即用 |
 | [ssy-notes-iwebservice](https://github.com/Sean-inoubliable/SSY-Notes/tree/master/ssy-notes-iwebservice) | 使用Http(s)直接调用WebService。整合axis2-客户端版；整合CXF-服务端版 |
+| [ssy-notes-filter](https://github.com/Sean-inoubliable/SSY-Notes/tree/master/ssy-notes-filter) | 一个简单的过滤器 |
 
 > - 关于模块内容，都是在工作中遇到的功能 + 平时无聊看的一些内容。
 > - 后续会陆续补充。
