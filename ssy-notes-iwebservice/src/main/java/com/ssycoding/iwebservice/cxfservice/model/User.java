@@ -6,13 +6,15 @@ package com.ssycoding.iwebservice.cxfservice.model;
  * @Date: 2020-03-18 20:08
  */
 public class User {
-
     /* 姓名 */
     private String myName;
     /* 年龄 */
     private Integer myAge;
     /* 座右铭 */
     private String myMotto;
+
+    public User(String joker, int i, String abc) {
+    }
 
     @Override
     public String toString() {

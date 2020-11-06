@@ -1,8 +1,11 @@
 package com.ssycoding.iwebservice.cxfservice;
 
 import com.ssycoding.iwebservice.cxfservice.model.User;
+import com.ssycoding.iwebservice.cxfservice.model.Users;
 import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.jaxws.endpoint.dynamic.JaxWsDynamicClientFactory;
+
+import java.util.ArrayList;
 
 /**
  * @Description: 测试客户端
@@ -18,15 +21,18 @@ public class CxfClient {
 
     public void testClient() {
         JaxWsDynamicClientFactory jaxWsDynamicClientFactory = JaxWsDynamicClientFactory.newInstance();
-        Client client = jaxWsDynamicClientFactory.createClient("http://localhost:8081/demo/api?wsdl");
+        Client client = jaxWsDynamicClientFactory.createClient("http://localhost:8080/demo/api?wsdl");
 
-        User user = new User();
+        Users users = new Users();
+        ArrayList<User> userArrayList = new ArrayList<>();
+        userArrayList.add(new User("joker", 26, "abc"));
+        userArrayList.add(new User("sean", 25, "def"));
+        users.setUsers(userArrayList);
 
         try {
-            Object[] sayHellos = client.invoke("getUserInfo", user);
-            for (Object o : sayHellos) {
-                System.out.println("返回数据：" + o);
-            }
+            Object[] result = client.invoke("getUserInfo", users);
+            String s = result[0].toString();
+            System.out.println(s);
         } catch (Exception e) {
             e.printStackTrace();
         }
