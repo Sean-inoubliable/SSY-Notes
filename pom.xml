@@ -17,6 +17,7 @@
         <module>ssy-notes-ilog</module>
         <module>ssy-notes-iutils</module>
         <module>ssy-notes-iwebservice</module>
+        <module>ssy-notes-interceptor</module>
     </modules>
     <packaging>pom</packaging>
     <name>SSY-Notes</name>
