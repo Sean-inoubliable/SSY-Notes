@@ -15,15 +15,25 @@ import java.util.*;
  */
 public class RecursiveSearchUtils {
 
-    // 文件后缀名
+    /**
+     * 文件后缀名
+     */
     private String suffixName;
-    // 左下角标题
+    /**
+     * 左下角标题
+     */
     private String sheetName;
-    // 行 key 值
+    /**
+     * 行 key 值
+     */
     private List<String> dataRow;
-    // 标题首行
+    /**
+     * 标题首行
+     */
     private String[] tableStr;
-    // 替换字符
+    /**
+     * 替换字符
+     */
     private static final String SLANT_LINE = "\\";
     private static final String SPOT_STR = ".";
 
@@ -115,7 +125,7 @@ public class RecursiveSearchUtils {
     private void isFile(File file) {
         String fileName = file.getName();
         if (fileName.substring(fileName.lastIndexOf(SPOT_STR)).equals(suffixName)) {
-            Map<String, String> dataMap = new HashMap<>();
+            Map<String, String> dataMap = new HashMap<>(3);
             String filePath = file.getPath();
             String versionStr = filePath
                     .substring(

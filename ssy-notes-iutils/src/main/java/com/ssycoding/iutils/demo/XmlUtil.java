@@ -19,22 +19,26 @@ import javax.xml.bind.Unmarshaller;
  * @author Sean
  *
  */
-public class XMLUtil {
+public class XmlUtil {
 
-    /* 静态Map 用于存值 */
-    public static Map<String, String> responseMap = new HashMap<>();
+    /**
+     * 静态Map 用于存值
+     */
+    protected static Map<String, String> responseMap = new HashMap<>();
+
+    private XmlUtil() {}
 
     /**
      * 递归遍历XML各节点，将其数据置于同一层级并转化为Map
      *
-     * @param responseXML
+     * @param responseXml
      * @return
      */
-    public static Map<String, String> xmlToMap(String responseXML) {
+    public static Map<String, String> xmlToMap(String responseXml) {
         // 利用axis2的omElement，将xml转换为omElement
         OMElement omElement = OMXMLBuilderFactory
                 .createOMBuilder(
-                        new ByteArrayInputStream(responseXML.getBytes()), "utf-8").getDocumentElement();
+                        new ByteArrayInputStream(responseXml.getBytes()), "utf-8").getDocumentElement();
         responseMap = processChildElements(omElement);
         return responseMap;
     }
@@ -92,13 +96,11 @@ public class XMLUtil {
                     Boolean.TRUE);
             // 将对象转换成输出流形式的xml
             // 创建输出流
-            FileWriter fw = null;
-            try {
-                fw = new FileWriter(path);
+            try (FileWriter fw = new FileWriter(path)) {
+                marshaller.marshal(obj, fw);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            marshaller.marshal(obj, fw);
         } catch (JAXBException e) {
             e.printStackTrace();
         }
@@ -131,13 +133,11 @@ public class XMLUtil {
         try {
             JAXBContext context = JAXBContext.newInstance(clazz);
             Unmarshaller unmarshaller = context.createUnmarshaller();
-            FileReader fr = null;
-            try {
-                fr = new FileReader(xmlPath);
-            } catch (FileNotFoundException e) {
+            try (FileReader fr = new FileReader(xmlPath)) {
+                xmlObject = unmarshaller.unmarshal(fr);
+            } catch (IOException e) {
                 e.printStackTrace();
             }
-            xmlObject = unmarshaller.unmarshal(fr);
         } catch (JAXBException e) {
             e.printStackTrace();
         }

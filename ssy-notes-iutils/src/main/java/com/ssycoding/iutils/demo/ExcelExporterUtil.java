@@ -4,9 +4,6 @@ import org.apache.commons.collections.MapUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFCellStyle;
-import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
@@ -29,8 +26,14 @@ public class ExcelExporterUtil {
 
     private static final Logger logger = LoggerFactory.getLogger(ExcelExporterUtil .class);
 
-    public static enum OfficeVersion {
+    public enum OfficeVersion {
+        /**
+         * office版本
+         */
         OFFICE_03,
+        /**
+         * office版本
+         */
         OFFICE_07;
     }
 
@@ -52,7 +55,8 @@ public class ExcelExporterUtil {
         // 创建一个工作薄
         if (OfficeVersion.OFFICE_07.equals(officeVersion)) {
             // workBook = new XSSFWorkbook();//处理07版本excel
-            workBook = new SXSSFWorkbook();// 处理07版本，但是适用于大数据量，导出之后数据不会占用内存
+            // 处理07版本，但是适用于大数据量，导出之后数据不会占用内存
+            workBook = new SXSSFWorkbook();
         } else if (OfficeVersion.OFFICE_03.equals(officeVersion)) {
             workBook = new HSSFWorkbook();
         }
@@ -94,11 +98,13 @@ public class ExcelExporterUtil {
         cellStyle.setBorderRight(CellStyle.BORDER_THIN);
         cellStyle.setBorderTop(CellStyle.BORDER_THIN);
         cellStyle.setBorderBottom(CellStyle.BORDER_THIN);
-        cellStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER); // 设置字体居中
+        // 设置字体居中
+        cellStyle.setAlignment(CellStyle.ALIGN_CENTER);
         // 设置字体
         Font font = workBook.createFont();
         font.setFontName("微软雅黑");
-        font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);// 字体加粗
+        // 字体加粗
+        font.setBoldweight(Font.BOLDWEIGHT_BOLD);
         font.setFontHeightInPoints((short) 13);
         cellStyle.setFont(font);
         cell.setCellStyle(cellStyle);
@@ -123,7 +129,7 @@ public class ExcelExporterUtil {
         for (int index = 0, length = dataRow.size(); index < length; index++) {
             // 参数代表第几列
             cell = row.createCell(index);
-            cell.setCellType(HSSFCell.CELL_TYPE_STRING);
+            cell.setCellType(Cell.CELL_TYPE_STRING);
             cell.setCellValue(String.valueOf(dataMap.get(dataRow.get(index))));
             CellStyle cellStyle = workBook.createCellStyle();
             // 边框边线
@@ -142,7 +148,7 @@ public class ExcelExporterUtil {
      *            key[i]代表从map中获取keys[i]的值作为第i列的值,如果传的是null默认取表头
      */
     public void createTableRows(List<Map<String, Object>> datas, String[] keys) {
-        for (int i = 0, length_1 = datas.size(); i < length_1; i++) {
+        for (int i = 0, length1 = datas.size(); i < length1; i++) {
             if (ArrayUtils.isEmpty(keys)) {
                 keys = title;
             }
@@ -150,12 +156,12 @@ public class ExcelExporterUtil {
             Map<String, Object> data = datas.get(i);
             Row row = sheet.createRow(i + 1);
             Cell cell = null;
-            for (int j = 0, length_2 = keys.length; j < length_2; j++) {
+            for (int j = 0, length2 = keys.length; j < length2; j++) {
                 // 单元格获取map中的key
                 String key = keys[j];
                 String value = MapUtils.getString(data, key, "");
                 cell = row.createCell(j);
-                cell.setCellType(HSSFCell.CELL_TYPE_STRING);
+                cell.setCellType(Cell.CELL_TYPE_STRING);
                 cell.setCellValue(value);
             }
 
@@ -166,7 +172,8 @@ public class ExcelExporterUtil {
      * 根据表头自动调整列宽度
      */
     public void autoAllSizeColumn() {
-//        if (sheet instanceof SXSSFSheet) {// 如果是SXSSFSheet，需要调用trackAllColumnsForAutoSizing方法一次
+        // 如果是SXSSFSheet，需要调用trackAllColumnsForAutoSizing方法一次
+//        if (sheet instanceof SXSSFSheet) {
 //            SXSSFSheet tmpSheet = (SXSSFSheet) sheet;
 //            tmpSheet.trackAllColumnsForAutoSizing();
 //        }
@@ -182,7 +189,7 @@ public class ExcelExporterUtil {
      */
     public void exportExcel(OutputStream outputStream) {
         // 导出之前先自动设置列宽, 根据每行数据调整列宽
-//        this.autoAllSizeColumn();
+        this.autoAllSizeColumn();
         try {
             workBook.write(outputStream);
         } catch (IOException e) {
@@ -197,15 +204,13 @@ public class ExcelExporterUtil {
      * @return
      */
     public byte[] exportByte(Workbook workBook) {
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        try {
+        try (ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
             workBook.write(bos);
+            return bos.toByteArray();
         } catch (IOException e) {
             logger.error(" exportExcelUtil error", e);
-        } finally {
-            IOUtils.closeQuietly(bos);
         }
-        return bos.toByteArray();
+        return null;
     }
 
     /**
@@ -233,14 +238,10 @@ public class ExcelExporterUtil {
     public void exportExcel(String outputFilePath) {
         // 导出之前先自动设置列宽
         this.autoAllSizeColumn();
-        FileOutputStream outputStream = null;
-        try {
-            outputStream = new FileOutputStream(outputFilePath);
+        try (FileOutputStream outputStream = new FileOutputStream(outputFilePath)) {
             workBook.write(outputStream);
         } catch (IOException e) {
             logger.error(" exportExcelUtil error", e);
-        } finally {
-            IOUtils.closeQuietly(outputStream);
         }
     }
 }

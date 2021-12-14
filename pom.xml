@@ -18,6 +18,7 @@
         <module>ssy-notes-iutils</module>
         <module>ssy-notes-iwebservice</module>
         <module>ssy-notes-interceptor</module>
+        <module>ssy-notes-filter</module>
     </modules>
     <packaging>pom</packaging>
     <name>SSY-Notes</name>
@@ -43,6 +44,18 @@
                     <artifactId>junit-vintage-engine</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.12.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.20</version>
         </dependency>
     </dependencies>
 

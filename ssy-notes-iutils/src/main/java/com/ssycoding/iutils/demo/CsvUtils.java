@@ -4,12 +4,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
 
-import java.io.BufferedWriter;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 /**
@@ -34,10 +33,8 @@ public class CsvUtils {
      * @param split     CSV文件分隔符，一般为","
      * @throws Exception
      */
-    public static void writeCSV(List<?> data, List<String> header, String filePath, String split) throws Exception {
-        BufferedWriter bw = null;
-        try {
-            bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(filePath), "UTF-8"));
+    public static void writeCsv(List<?> data, List<String> header, String filePath, String split) throws InvocationTargetException, IllegalAccessException, IOException {
+        try (BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(filePath), StandardCharsets.UTF_8))) {
             // 填充对象属性值
             headIsEmpty(header, bw, split);
             // 填充数据
@@ -63,17 +60,9 @@ public class CsvUtils {
                     }
                 }
             }
-        } catch (Exception e) {
+        } catch (IOException e) {
             logger.error("Write CSV exception------", e);
-            throw e;
-        } finally {
-            if (bw != null) {
-                try {
-                    bw.close();
-                } catch (IOException e) {
-                    logger.error("Close OutputStream exception------", e);
-                }
-            }
+            throw new IOException(e);
         }
     }
 
@@ -85,11 +74,9 @@ public class CsvUtils {
      * @param split     CSV文件分隔符，一般为","
      * @throws Exception
      */
-    public static void writeCSVFromList(List<List<String>> data, List<String> header, String filePath,
-                                        String split) throws Exception {
-        BufferedWriter bw = null;
-        try {
-            bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(filePath), "UTF-8"));
+    public static void writeCsvFromList(List<List<String>> data, List<String> header, String filePath,
+                                        String split) throws IOException {
+        try (BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(filePath), StandardCharsets.UTF_8))) {
             // 填充对象属性值
             headIsEmpty(header, bw, split);
             // 填充数据
@@ -107,17 +94,9 @@ public class CsvUtils {
                     }
                 }
             }
-        } catch (Exception e) {
+        } catch (IOException e) {
             logger.error("Write CSV exception------", e);
-            throw e;
-        } finally {
-            if (bw != null) {
-                try {
-                    bw.close();
-                } catch (IOException e) {
-                    logger.error("Close OutputStream exception------", e);
-                }
-            }
+            throw new IOException(e);
         }
     }
 
@@ -128,7 +107,7 @@ public class CsvUtils {
      * @Param:
      * @Return:
      */
-    public static void headIsEmpty(List<String> header, BufferedWriter bw, String split) throws Exception  {
+    public static void headIsEmpty(List<String> header, BufferedWriter bw, String split) throws IOException {
         // 填充对象属性值
         if (!CollectionUtils.isEmpty(header)) {
             // 添加头部（首行）

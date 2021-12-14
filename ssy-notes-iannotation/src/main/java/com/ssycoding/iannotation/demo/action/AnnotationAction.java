@@ -1,9 +1,9 @@
 package com.ssycoding.iannotation.demo.action;
 
 import com.ssycoding.iannotation.demo.pojo.Person;
+import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.ObjectUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +21,7 @@ public class AnnotationAction {
     @RequestMapping(value = "/annotationtest")
     public Person AnnotationTest(@Validated Person person, BindingResult bindingResult) {
 
-        if (!ObjectUtils.isEmpty(bindingResult.getFieldError())) {
+        if (ObjectUtils.isNotEmpty(bindingResult.getFieldError())) {
             logger.error(bindingResult.getFieldError().getDefaultMessage());
         }
         logger.info(person.toString());
