@@ -1,7 +1,6 @@
 package com.ssycoding.iutils.demo;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -13,6 +12,7 @@ import java.util.*;
  * @Author: Sean
  * @Date: 2020/7/18 10:30
  */
+@Slf4j
 public class RecursiveSearchUtils {
 
     /**
@@ -50,21 +50,19 @@ public class RecursiveSearchUtils {
         this.tableStr = tableStr;
     }
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(RecursiveSearchUtils.class);
-
     private List<Map<String, String>> dataList = new ArrayList<>();
 
     public void recursiveSearch(String directoryUrl, String writePath) {
 
-        LOGGER.info("\n\n----------- begin 递归处理 -----------\n");
+        log.info("\n\n----------- begin 递归处理 -----------\n");
 
         File file = new File(directoryUrl);
 
         fileOrDirectoryHandle(file);
 
-        LOGGER.info("\n\n----------- end 递归处理 -----------\n");
+        log.info("\n\n----------- end 递归处理 -----------\n");
 
-        LOGGER.info("\n\n----------- begin 写入文件 -----------\n");
+        log.info("\n\n----------- begin 写入文件 -----------\n");
 
         try (FileOutputStream fileOutputStream = new FileOutputStream(new File(writePath))) {
             writeExcel(fileOutputStream, dataList);
@@ -72,8 +70,8 @@ public class RecursiveSearchUtils {
             e.printStackTrace();
         }
 
-        LOGGER.info("\n\n----------- end 写入文件 -----------\n");
-        LOGGER.info("\n\n----------- 文件存放路径：" + writePath + " -----------\n");
+        log.info("\n\n----------- end 写入文件 -----------\n");
+        log.info("\n\n----------- 文件存放路径：" + writePath + " -----------\n");
     }
 
     /**

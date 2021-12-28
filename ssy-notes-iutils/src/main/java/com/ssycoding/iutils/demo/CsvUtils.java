@@ -1,10 +1,12 @@
 package com.ssycoding.iutils.demo;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.CollectionUtils;
 
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -16,9 +18,8 @@ import java.util.List;
  * @Author: Sean
  * @Date: 2020-03-25 17:16
  */
+@Slf4j
 public class CsvUtils {
-
-    private static final Logger logger = LoggerFactory.getLogger(CsvUtils.class);
 
     /**
      * 私有化构造器
@@ -61,7 +62,7 @@ public class CsvUtils {
                 }
             }
         } catch (IOException e) {
-            logger.error("Write CSV exception------", e);
+            log.error("Write CSV exception------", e);
             throw new IOException(e);
         }
     }
@@ -95,7 +96,7 @@ public class CsvUtils {
                 }
             }
         } catch (IOException e) {
-            logger.error("Write CSV exception------", e);
+            log.error("Write CSV exception------", e);
             throw new IOException(e);
         }
     }

@@ -1,5 +1,6 @@
 package com.ssycoding.iutils.demo;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.output.ByteArrayOutputStream;
@@ -8,8 +9,6 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -22,9 +21,8 @@ import java.util.Map;
  * @Author: Sean
  * @Date: 2020/5/20 10:34
  */
+@Slf4j
 public class ExcelExporterUtil {
-
-    private static final Logger logger = LoggerFactory.getLogger(ExcelExporterUtil .class);
 
     public enum OfficeVersion {
         /**
@@ -193,7 +191,7 @@ public class ExcelExporterUtil {
         try {
             workBook.write(outputStream);
         } catch (IOException e) {
-            logger.error(" exportExcelUtil error", e);
+            log.error(" exportExcelUtil error", e);
         } finally {
             IOUtils.closeQuietly(outputStream);
         }
@@ -208,7 +206,7 @@ public class ExcelExporterUtil {
             workBook.write(bos);
             return bos.toByteArray();
         } catch (IOException e) {
-            logger.error(" exportExcelUtil error", e);
+            log.error(" exportExcelUtil error", e);
         }
         return null;
     }
@@ -241,7 +239,7 @@ public class ExcelExporterUtil {
         try (FileOutputStream outputStream = new FileOutputStream(outputFilePath)) {
             workBook.write(outputStream);
         } catch (IOException e) {
-            logger.error(" exportExcelUtil error", e);
+            log.error(" exportExcelUtil error", e);
         }
     }
 }
