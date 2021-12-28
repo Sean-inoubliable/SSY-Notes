@@ -1,8 +1,6 @@
 package com.ssycoding.filter.demo;
 
-import com.alibaba.fastjson.JSON;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.*;
@@ -16,30 +14,29 @@ import java.io.IOException;
  * @Author: Sean
  * @Date: 2020/11/5 11:29
  */
+@Slf4j
 @Service
 @WebFilter(filterName = "SeanFilter", urlPatterns = "/*")
 public class SeanFilter implements Filter {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SeanFilter.class);
-
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         /* 可以加载 Filter启动之前需要的资源 */
-        LOGGER.info(" ------- seanFilter init ------- ");
+        log.info(" ------- seanFilter init ------- ");
         Filter.super.init(filterConfig);
     }
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        LOGGER.info(" ------- seanFilter doFilter executed ------- ");
+        log.info(" ------- seanFilter doFilter executed ------- ");
 
         HttpServletRequest request = (HttpServletRequest)servletRequest;
         HttpServletResponse response = (HttpServletResponse)servletResponse;
 
-        LOGGER.info("URI: " + request.getRequestURI());
-        LOGGER.info("URL: " + request.getRequestURL());
-        LOGGER.info("Method: " + request.getMethod());
-        LOGGER.info("CharacterEncoding: " + request.getCharacterEncoding());
+        log.info("URI: " + request.getRequestURI());
+        log.info("URL: " + request.getRequestURL());
+        log.info("Method: " + request.getMethod());
+        log.info("CharacterEncoding: " + request.getCharacterEncoding());
 
         // -----------------------------------------------------------------------
 
@@ -52,12 +49,12 @@ public class SeanFilter implements Filter {
 
         filterChain.doFilter(servletRequest, servletResponse);
 
-        LOGGER.info("servletResponse: " + response);
-        LOGGER.info(" ------- seanFilter doFilter after ------- ");
+        log.info("servletResponse: " + response);
+        log.info(" ------- seanFilter doFilter after ------- ");
     }
 
     @Override
     public void destroy() {
-        LOGGER.info(" ------- seanFilter Destroy ------- ");
+        log.info(" ------- seanFilter Destroy ------- ");
     }
 }

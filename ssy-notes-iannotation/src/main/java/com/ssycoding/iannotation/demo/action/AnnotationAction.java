@@ -1,9 +1,8 @@
 package com.ssycoding.iannotation.demo.action;
 
 import com.ssycoding.iannotation.demo.pojo.Person;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,17 +13,17 @@ import org.springframework.web.bind.annotation.RestController;
  * @Author: Sean
  * @Date: 2020/5/20 10:34
  */
+@Slf4j
 @RestController
 public class AnnotationAction {
-    private static final Logger logger = LoggerFactory.getLogger(AnnotationAction.class);
 
     @RequestMapping(value = "/annotationtest")
     public Person AnnotationTest(@Validated Person person, BindingResult bindingResult) {
 
         if (ObjectUtils.isNotEmpty(bindingResult.getFieldError())) {
-            logger.error(bindingResult.getFieldError().getDefaultMessage());
+            log.error(bindingResult.getFieldError().getDefaultMessage());
         }
-        logger.info(person.toString());
+        log.info(person.toString());
         return person;
     }
 }

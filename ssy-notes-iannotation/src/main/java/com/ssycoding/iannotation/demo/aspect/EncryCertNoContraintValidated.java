@@ -1,8 +1,7 @@
 package com.ssycoding.iannotation.demo.aspect;
 
 import com.ssycoding.iannotation.demo.annotaion.EncryCertNo;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.ObjectUtils;
 
 import javax.validation.ConstraintValidator;
@@ -14,9 +13,8 @@ import java.util.regex.Pattern;
  * @Author: Sean
  * @Date: 2020/5/20 10:34
  */
+@Slf4j
 public class EncryCertNoContraintValidated implements ConstraintValidator<EncryCertNo, Object> {
-
-    private static final Logger logger = LoggerFactory.getLogger(EncryCertNoContraintValidated.class);
 
     /**
      * 身份证正则：
@@ -28,15 +26,15 @@ public class EncryCertNoContraintValidated implements ConstraintValidator<EncryC
 
     @Override
     public void initialize(EncryCertNo constraintAnnotation) {
-        if (logger.isInfoEnabled()) {
-            logger.info("EncryCertNoContraintValidated init... ...");
+        if (log.isInfoEnabled()) {
+            log.info("EncryCertNoContraintValidated init... ...");
         }
     }
 
     @Override
     public boolean isValid(Object o, ConstraintValidatorContext constraintValidatorContext) {
-        if (logger.isInfoEnabled()) {
-            logger.info("EncryCertNoContraintValidated isValid...... " + o);
+        if (log.isInfoEnabled()) {
+            log.info("EncryCertNoContraintValidated isValid...... " + o);
         }
         if (!ObjectUtils.isEmpty(o)) {
             String certNo = String.valueOf(o);
