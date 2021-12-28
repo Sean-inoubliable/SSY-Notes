@@ -1,0 +1,12 @@
+spring:
+  # ActiveMQ
+  activemq:
+    # 地址
+    broker-url: tcp://localhost:61616
+    # 用户名
+    user: admin
+    # 密码
+    password: admin
+  # 支持Topic
+  jms:
+    pub-sub-domain: true
